@@ -1,0 +1,210 @@
+:root {
+  --theme-green: #207144; 
+  --theme-green-hover: #165231;
+  --bg-color: #f2f7f4;
+}
+
+body {
+  font-family: 'Anuphan', sans-serif;
+  font-weight: 300;
+  background-color: var(--bg-color);
+  color: #333;
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+  margin: 0;
+}
+.container {
+  background: #ffffff;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(32, 113, 68, 0.08);
+  width: 100%;
+  max-width: 480px;
+  border-top: 6px solid var(--theme-green);
+  box-sizing: border-box;
+}
+h2 {
+  text-align: center;
+  font-weight: 500;
+  margin-top: 0;
+  margin-bottom: 25px;
+  color: var(--theme-green);
+}
+.form-group {
+  margin-bottom: 22px;
+}
+label.field-label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+  font-size: 15px;
+  color: #2c3e50;
+}
+input[type="text"], textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  box-sizing: border-box;
+  font-family: 'Anuphan', sans-serif;
+  font-weight: 300;
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+input[type="text"]:focus, textarea:focus {
+  border-color: var(--theme-green);
+  box-shadow: 0 0 0 3px rgba(32, 113, 68, 0.15);
+}
+
+.severity-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.severity-option input[type="radio"] {
+  display: none;
+}
+.severity-option label {
+  display: block;
+  padding: 12px 15px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  background: #fafafa;
+  cursor: pointer;
+  text-align: center;
+  transition: all 0.2s ease;
+  font-weight: 400;
+  color: #4b5563;
+  margin: 0;
+}
+.severity-option label:hover {
+  background: #f3f4f6;
+}
+.severity-option input[value="เหตุการณ์ปกติ"]:checked + label {
+  background-color: var(--theme-green);
+  color: white;
+  border-color: var(--theme-green);
+  box-shadow: 0 4px 10px rgba(32, 113, 68, 0.3);
+}
+.severity-option input[value="อาจเกิดอันตรายได้"]:checked + label {
+  background-color: #f39c12; 
+  color: white;
+  border-color: #f39c12;
+  box-shadow: 0 4px 10px rgba(243, 156, 18, 0.3);
+}
+.severity-option input[value="อันตรายมากต้องแก้ไข"]:checked + label {
+  background-color: #e74c3c; 
+  color: white;
+  border-color: #e74c3c;
+  box-shadow: 0 4px 10px rgba(231, 76, 60, 0.3);
+}
+
+.upload-btn {
+  width: 100%;
+  padding: 12px;
+  background-color: white;
+  border: 2px dashed #a3b8aa;
+  color: var(--theme-green);
+  border-radius: 8px;
+  font-family: 'Anuphan', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.2s ease;
+  box-sizing: border-box;
+}
+.upload-btn:hover {
+  background-color: #eef5f0;
+  border-color: var(--theme-green);
+}
+.file-list {
+  margin-top: 10px;
+}
+.file-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #f8faf9;
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: 1px solid #e5e7eb;
+  margin-bottom: 5px;
+  font-size: 13px;
+  color: #4b5563;
+}
+.remove-btn {
+  color: #e74c3c;
+  cursor: pointer;
+  font-weight: bold;
+  padding: 0 5px;
+}
+.remove-btn:hover {
+  color: #c0392b;
+}
+
+button[type="submit"] {
+  width: 100%;
+  padding: 14px;
+  background-color: var(--theme-green);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-family: 'Anuphan', sans-serif;
+  font-weight: 500;
+  cursor: pointer;
+  margin-top: 15px;
+  transition: background-color 0.2s;
+}
+button[type="submit"]:hover {
+  background-color: var(--theme-green-hover);
+}
+button[type="submit"]:disabled {
+  background-color: #95a5a6;
+  cursor: not-allowed;
+}
+.optional-text {
+  color: #7f8c8d;
+  font-size: 13px;
+  font-weight: 300;
+}
+
+/* Styles สำหรับระบบ Autocomplete */
+.autocomplete-container {
+  position: relative;
+}
+.autocomplete-items {
+  position: absolute;
+  border: 1px solid #d1d5db;
+  border-bottom: none;
+  border-top: none;
+  z-index: 99;
+  top: 100%;
+  left: 0;
+  right: 0;
+  border-radius: 0 0 8px 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  background-color: #fff;
+}
+.autocomplete-items div {
+  padding: 12px;
+  cursor: pointer;
+  border-bottom: 1px solid #d1d5db;
+  font-size: 14px;
+  color: #333;
+}
+.autocomplete-items div:hover {
+  background-color: #eef5f0;
+  color: var(--theme-green);
+}
+.autocomplete-active {
+  background-color: var(--theme-green) !important;
+  color: #ffffff !important;
+}

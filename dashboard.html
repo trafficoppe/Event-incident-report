@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>แดชบอร์ด - สรุปรายงานเหตุการณ์</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Anuphan:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="dashboard.css">
+</head>
+<body>
+
+<div class="dashboard-container">
+  <div class="header-section">
+    <h2>📊 แดชบอร์ดสรุปเหตุการณ์กิจกรรมพิเศษ</h2>
+    <a href="index.html" class="back-btn">⬅ กลับไปหน้าแจ้งเหตุ</a>
+  </div>
+
+  <div class="summary-cards">
+    <div class="card card-total">
+      <h3>ทั้งหมด</h3>
+      <h1 id="count-total">0</h1>
+    </div>
+    <div class="card card-normal">
+      <h3>เหตุการณ์ปกติ</h3>
+      <h1 id="count-normal">0</h1>
+    </div>
+    <div class="card card-warning">
+      <h3>อาจเกิดอันตรายได้</h3>
+      <h1 id="count-warning">0</h1>
+    </div>
+    <div class="card card-danger">
+      <h3>อันตรายมากต้องแก้ไข</h3>
+      <h1 id="count-danger">0</h1>
+    </div>
+  </div>
+
+  <!-- เปลี่ยนจากตาราง (table-container) มาใช้ incidents-list แทน -->
+  <div id="incidents-list" class="incidents-list">
+    <div class="loading-text" style="text-align: center; color: #6b7280; padding: 40px;">กำลังโหลดข้อมูล...</div>
+  </div>
+
+</div>
+
+<script src="config.js"></script>
+<script src="dashboard.js"></script>
+</body>
+</html>
