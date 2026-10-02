@@ -157,15 +157,13 @@ function renderDashboard(incidents) {
         <div class="card-right">
           <div class="incident-header">
             <div>${dateTimeHtml}</div>
+            <!-- แสดงระดับความรุนแรงที่มุมขวาบน -->
             <div><span class="badge ${badgeClass}">${item.severity}</span></div>
           </div>
           <div class="incident-info">
             <p><strong>ผู้รายงาน:</strong> ${item.name} <span style="color:#6b7280; font-size:13px;">(${item.position})</span></p>
-            <p><strong>หน่วยงาน:</strong> ${item.department}</p>
-            
-            <!-- เพิ่มการแสดงผล 2 บรรทัดนี้ -->
-            <p><strong>สถานที่:</strong> <span style="color:#207144;">${item.location || '-'}</span></p>
             <p><strong>ประเภทเหตุการณ์:</strong> ${item.category || '-'}</p>
+            <p><strong>สถานที่:</strong> <span style="color:#207144;">${item.location || '-'}</span></p>
 
             <p style="margin-top: 15px;"><strong>รายละเอียดเพิ่มเติม:</strong></p>
             <div class="detail-box">${item.details || 'ไม่มีการระบุรายละเอียดเพิ่มเติม'}</div>
