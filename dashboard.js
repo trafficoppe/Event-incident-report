@@ -1,13 +1,15 @@
 // ตัวแปรเก็บสถานะว่าการ์ดแต่ละใบกำลังแสดงรูปที่เท่าไหร่ และเก็บรอบเวลาของแต่ละการ์ด
 const sliderStates = {};
 const sliderIntervals = {};
+let allIncidents = [];
 
 window.addEventListener('DOMContentLoaded', () => {
   fetch(APP_CONFIG.SCRIPT_URL + '?action=getIncidents')
     .then(response => response.json())
     .then(data => {
       if (data.status === "Success") {
-        renderDashboard(data.data);
+        allIncidents = data.data; // เก็บข้อมูลทั้งหมดไว้
+        renderDashboard(allIncidents); // แสดงผลข้อมูลทั้งหมดในตอนแรก
       } else {
         document.getElementById('incidents-list').innerHTML = `<div style="text-align:center; color:red; padding:20px;">เกิดข้อผิดพลาด: ${data.message}</div>`;
       }
@@ -15,7 +17,60 @@ window.addEventListener('DOMContentLoaded', () => {
     .catch(error => {
       document.getElementById('incidents-list').innerHTML = `<div style="text-align:center; color:red; padding:20px;">การเชื่อมต่อล้มเหลว: ${error.message}</div>`;
     });
+
+  // 👇 เพิ่ม 2 บรรทัดนี้ เพื่อให้ปุ่มทำงานเมื่อถูกคลิก
+  document.getElementById('filterBtn').addEventListener('click', filterData);
+  document.getElementById('clearFilterBtn').addEventListener('click', clearFilter);
 });
+
+// ฟังก์ชันสำหรับกรองวันที่ (ส่วนที่เหลือคงเดิม)
+function filterData() {
+  const startDateVal = document.getElementById('startDate').value;
+  const endDateVal = document.getElementById('endDate').value;
+  
+  // หากไม่ได้เลือกวันที่เลย ให้แสดงทั้งหมด
+  if (!startDateVal && !endDateVal) {
+    renderDashboard(allIncidents);
+    return;
+  }
+  
+  const filtered = allIncidents.filter(item => {
+    // แปลงวันที่ของเหตุการณ์เป็น Object Date และรีเซ็ตเวลาให้เป็นเที่ยงคืนเพื่อเทียบเฉพาะวันที่
+    const itemDate = new Date(item.timestamp);
+    itemDate.setHours(0, 0, 0, 0); 
+    
+    let isAfterStart = true;
+    let isBeforeEnd = true;
+    
+    if (startDateVal) {
+      const start = new Date(startDateVal);
+      start.setHours(0, 0, 0, 0);
+      isAfterStart = itemDate >= start; // วันที่เกิดเหตุ มากกว่าหรือเท่ากับ วันที่เริ่มต้น
+    }
+    
+    if (endDateVal) {
+      const end = new Date(endDateVal);
+      end.setHours(0, 0, 0, 0);
+      isBeforeEnd = itemDate <= end; // วันที่เกิดเหตุ น้อยกว่าหรือเท่ากับ วันที่สิ้นสุด
+    }
+    
+    return isAfterStart && isBeforeEnd;
+  });
+  
+  // ล้างค่า slider intervals เดิมที่อาจจะค้างอยู่ก่อนที่จะ render ใหม่
+  Object.keys(sliderIntervals).forEach(key => clearInterval(sliderIntervals[key]));
+  
+  renderDashboard(filtered);
+}
+
+// ฟังก์ชันสำหรับล้างค่าตัวกรอง
+function clearFilter() {
+  document.getElementById('startDate').value = '';
+  document.getElementById('endDate').value = '';
+  
+  Object.keys(sliderIntervals).forEach(key => clearInterval(sliderIntervals[key]));
+  renderDashboard(allIncidents);
+}
 
 function renderDashboard(incidents) {
   let total = incidents.length;
@@ -107,6 +162,11 @@ function renderDashboard(incidents) {
           <div class="incident-info">
             <p><strong>ผู้รายงาน:</strong> ${item.name} <span style="color:#6b7280; font-size:13px;">(${item.position})</span></p>
             <p><strong>หน่วยงาน:</strong> ${item.department}</p>
+            
+            <!-- เพิ่มการแสดงผล 2 บรรทัดนี้ -->
+            <p><strong>สถานที่:</strong> <span style="color:#207144;">${item.location || '-'}</span></p>
+            <p><strong>ประเภทเหตุการณ์:</strong> ${item.category || '-'}</p>
+
             <p style="margin-top: 15px;"><strong>รายละเอียดเพิ่มเติม:</strong></p>
             <div class="detail-box">${item.details || 'ไม่มีการระบุรายละเอียดเพิ่มเติม'}</div>
           </div>

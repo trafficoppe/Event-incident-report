@@ -208,3 +208,10 @@ button[type="submit"]:disabled {
   background-color: var(--theme-green) !important;
   color: #ffffff !important;
 }
+/* สีสำหรับปุ่มตัวเลือก ประเภทเหตุการณ์ */
+.severity-option input[name="category"]:checked + label {
+  background-color: #3b82f6; /* สีน้ำเงิน เพื่อแยกความต่างจากระดับความรุนแรง */
+  color: white;
+  border-color: #3b82f6;
+  box-shadow: 0 4px 10px rgba(59, 130, 246, 0.3);
+}

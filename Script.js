@@ -94,28 +94,49 @@ function removeFile(index) {
   updateFileList();
 }
 
-// 4. ระบบส่งแบบฟอร์มบันทึกข้อมูล
-document.getElementById('incidentForm').addEventListener('submit', function(e) {
+document.getElementById('incidentForm').addEventListener('submit', async function(e) {
   e.preventDefault();
   
+  // (อาจจะมีโค้ดเปลี่ยนข้อความปุ่มเป็น "กำลังส่งข้อมูล..." อยู่ตรงนี้ ปล่อยไว้เหมือนเดิมครับ)
   const submitBtn = document.getElementById('submitBtn');
-  
+  submitBtn.innerText = "กำลังส่งข้อมูล...";
   submitBtn.disabled = true;
-  submitBtn.innerText = 'กำลังส่งข้อมูล... โปรดรอสักครู่';
 
+  // 🔽 เอาโค้ดมาวางตรงนี้เลยครับ (แทนที่ formData อันเก่าไปเลย) 🔽
+  
+  // 1. ดึงค่าประเภทเหตุการณ์ (ถ้าเลือก "อื่นๆ" ให้เอาข้อความที่พิมพ์มาใช้)
+  let categoryValue = "";
+  let categoryEle = document.querySelector('input[name="category"]:checked');
+  if (categoryEle) {
+      categoryValue = categoryEle.value === 'อื่นๆ' ? document.getElementById('otherCategory').value : categoryEle.value;
+  }
+  
+  // 2. ดึงค่าความรุนแรง
   let severityValue = "";
   let severityEle = document.querySelector('input[name="severity"]:checked');
   if (severityEle) {
       severityValue = severityEle.value;
   }
 
+  // 3. จัดเตรียมข้อมูลส่งไป Google Apps Script
   let formData = {
     name: document.getElementById('name').value,
     position: document.getElementById('position').value,
     department: document.getElementById('department').value,
+    category: categoryValue,
     severity: severityValue,
+    location: document.getElementById('location').value,
     details: document.getElementById('details').value
   };
+  
+  // 🔼 สิ้นสุดส่วนที่ต้องเอามาวาง 🔼
+
+  // ... โค้ดด้านล่างนี้จะเป็นส่วนที่ใช้แปลงรูปภาพ และใช้คำสั่ง fetch() ส่งข้อมูลไป Apps Script 
+  // (ซึ่งโค้ดส่วนล่างนี้ ให้ใช้ของเดิมที่คุณมีอยู่ได้เลยครับ ไม่ต้องลบ)
+  
+  // ตัวอย่างเช่น:
+  // let imagePromises = selectedFiles.map(file => getBase64(file));
+  // ...
 
   const getBase64 = (file) => {
     return new Promise((resolve) => {
@@ -186,5 +207,20 @@ document.getElementById('incidentForm').addEventListener('submit', function(e) {
         confirmButtonColor: '#e74c3c'
       });
     });
+  });
+});
+// ระบบซ่อน/แสดงช่อง "อื่นๆ" ของประเภทเหตุการณ์
+document.querySelectorAll('input[name="category"]').forEach(radio => {
+  radio.addEventListener('change', function() {
+    const otherInput = document.getElementById('otherCategory');
+    if (this.value === 'อื่นๆ') {
+      otherInput.style.display = 'block';
+      otherInput.required = true;
+      otherInput.focus();
+    } else {
+      otherInput.style.display = 'none';
+      otherInput.required = false;
+      otherInput.value = '';
+    }
   });
 });

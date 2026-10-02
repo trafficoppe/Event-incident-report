@@ -16,6 +16,17 @@
     <h2>📊 แดชบอร์ดสรุปเหตุการณ์กิจกรรมพิเศษ</h2>
     <a href="index.html" class="back-btn">⬅ กลับไปหน้าแจ้งเหตุ</a>
   </div>
+  <!-- เพิ่มส่วนของตัวกรองวันที่ -->
+  <div class="filter-section">
+    <label for="startDate">ตั้งแต่วันที่:</label>
+    <input type="date" id="startDate">
+    
+    <label for="endDate">ถึงวันที่:</label>
+    <input type="date" id="endDate">
+    
+    <button id="filterBtn" class="filter-btn">🔍 กรองข้อมูล</button>
+    <button id="clearFilterBtn" class="clear-btn">ล้างค่า</button>
+  </div>
 
   <div class="summary-cards">
     <div class="card card-total">
